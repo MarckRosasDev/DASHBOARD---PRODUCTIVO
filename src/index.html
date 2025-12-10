@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Panel de Inicio · Productivo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Políticas de seguridad básicas (para cuando lo sirvas desde un servidor) -->
+  <!-- Solo cargamos recursos propios; los enlaces externos se abren en nueva pestaña y no se ven afectados -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self' https: data:">
+
+  <!-- No enviar la URL del panel como referrer a otros sitios -->
+  <meta name="referrer" content="no-referrer" />
+
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <div class="title-block">
+        <h1>
+          Panel de Inicio
+          <span class="title-badge">Modo productivo</span>
+        </h1>
+        <p>Acceso rápido a tus herramientas de inteligencia artificial y páginas de uso diario.</p>
+      </div>
+      <div class="clock">
+        <div class="clock-time" id="clock-time">--:--</div>
+        <div class="clock-date" id="clock-date">Cargando fecha…</div>
+      </div>
+    </header>
+
+    <!-- Buscador -->
+    <section class="search-card">
+      <div class="search-label">Buscador rápido</div>
+      <form
+        class="search-row"
+        action="https://www.google.com/search"
+        method="GET"
+        target="_blank"
+      >
+        <input
+          type="text"
+          name="q"
+          placeholder="Escribe aquí para buscar en Google…"
+          autofocus
+        />
+        <button type="submit">Buscar en Google</button>
+      </form>
+    </section>
+
+    <main class="grid">
+      <!-- Columna izquierda: pestañas de herramientas -->
+      <section class="card" id="main-tools-card">
+        <div class="card-header">
+          <div class="card-title">Herramientas principales</div>
+          <div class="card-actions">
+            <div class="card-tag">Organizadas por área</div>
+            <button class="mini-btn" id="add-link-btn">+ Agregar</button>
+            <button class="mini-btn" id="toggle-delete-mode-btn">Eliminar</button>
+          </div>
+        </div>
+
+        <!-- Pestañas -->
+        <div class="tabs">
+          <button class="tab-btn active" data-tab-target="ia">IA</button>
+          <button class="tab-btn" data-tab-target="dev">Dev</button>
+          <button class="tab-btn" data-tab-target="instaladores">Instaladores</button>
+          <button class="tab-btn" data-tab-target="diseno">Diseño gráfico</button>
+          <button class="tab-btn" data-tab-target="negocios">Negocios</button>
+          <button class="tab-btn" data-tab-target="creativo">Creativo</button>
+          <button class="tab-btn" data-tab-target="electronica">Electrónica</button>
+          <button class="tab-btn" data-tab-target="cursos">Cursos</button>
+        </div>
+
+        <!-- IA -->
+        <div class="links-grid active" data-tab="ia">
+          <a class="link-btn" href="https://chat.openai.com" target="_blank" rel="noopener noreferrer">
+            <span>ChatGPT</span>
+            <small>Chat general</small>
+          </a>
+          <a class="link-btn" href="https://gemini.google.com" target="_blank" rel="noopener noreferrer">
+            <span>Google Gemini</span>
+            <small>Google IA</small>
+          </a>
+          <a class="link-btn" href="https://claude.ai" target="_blank" rel="noopener noreferrer">
+            <span>Claude</span>
+            <small>Antropic</small>
+          </a>
+          <a class="link-btn" href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer">
+            <span>Perplexity</span>
+            <small>Búsqueda IA</small>
+          </a>
+          <a class="link-btn" href="https://leonardo.ai" target="_blank" rel="noopener noreferrer">
+            <span>Leonardo AI</span>
+            <small>Imágenes IA</small>
+          </a>
+          <a class="link-btn" href="https://runwayml.com" target="_blank" rel="noopener noreferrer">
+            <span>Runway</span>
+            <small>Video IA</small>
+          </a>
+          <a class="link-btn" href="https://elevenlabs.io" target="_blank" rel="noopener noreferrer">
+            <span>ElevenLabs</span>
+            <small>Voz IA</small>
+          </a>
+          <a class="link-btn" href="https://docs.midjourney.com" target="_blank" rel="noopener noreferrer">
+            <span>Midjourney Docs</span>
+            <small>Guía imágenes</small>
+          </a>
+        </div>
+
+        <!-- Dev -->
+        <div class="links-grid" data-tab="dev">
+          <a class="link-btn" href="https://github.com" target="_blank" rel="noopener noreferrer">
+            <span>GitHub</span>
+            <small>Repositorios</small>
+          </a>
+          <a class="link-btn" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer">
+            <span>Stack Overflow</span>
+            <small>Preguntas dev</small>
+          </a>
+          <a class="link-btn" href="https://gitlab.com" target="_blank" rel="noopener noreferrer">
+            <span>GitLab</span>
+            <small>Repos</small>
+          </a>
+          <a class="link-btn" href="https://mvnrepository.com" target="_blank" rel="noopener noreferrer">
+            <span>Maven Repository</span>
+            <small>Dependencias</small>
+          </a>
+          <a class="link-btn" href="https://spring.io/projects/spring-framework" target="_blank" rel="noopener noreferrer">
+            <span>Spring Docs</span>
+            <small>Java</small>
+          </a>
+          <a class="link-btn" href="https://quarkus.io/get-started/" target="_blank" rel="noopener noreferrer">
+            <span>Quarkus Docs</span>
+            <small>Java 17</small>
+          </a>
+        </div>
+
+        <!-- Instaladores -->
+        <div class="links-grid" data-tab="instaladores">
+          <a class="link-btn" href="https://code.visualstudio.com/download" target="_blank" rel="noopener noreferrer">
+            <span>VS Code</span>
+            <small>Editor</small>
+          </a>
+          <a class="link-btn" href="https://www.jetbrains.com/idea/download" target="_blank" rel="noopener noreferrer">
+            <span>IntelliJ IDEA</span>
+            <small>Java IDE</small>
+          </a>
+          <a class="link-btn" href="https://spring.io/tools" target="_blank" rel="noopener noreferrer">
+            <span>Spring Tools Suite</span>
+            <small>STS</small>
+          </a>
+          <a class="link-btn" href="https://www.oracle.com/java/technologies/javase-jdk8-downloads.html" target="_blank" rel="noopener noreferrer">
+            <span>JDK 8</span>
+            <small>Java</small>
+          </a>
+          <a class="link-btn" href="https://nodejs.org/en/download" target="_blank" rel="noopener noreferrer">
+            <span>Node.js</span>
+            <small>Runtime JS</small>
+          </a>
+          <a class="link-btn" href="https://git-scm.com/downloads" target="_blank" rel="noopener noreferrer">
+            <span>Git</span>
+            <small>Control de versiones</small>
+          </a>
+          <a class="link-btn" href="https://www.docker.com/products/docker-desktop/" target="_blank" rel="noopener noreferrer">
+            <span>Docker Desktop</span>
+            <small>Contenedores</small>
+          </a>
+          <a class="link-btn" href="https://www.postman.com/downloads/" target="_blank" rel="noopener noreferrer">
+            <span>Postman</span>
+            <small>APIs</small>
+          </a>
+        </div>
+
+        <!-- Diseño gráfico -->
+        <div class="links-grid" data-tab="diseno">
+          <a class="link-btn" href="https://www.canva.com" target="_blank" rel="noopener noreferrer">
+            <span>Canva</span>
+            <small>Diseño rápido</small>
+          </a>
+          <a class="link-btn" href="https://www.figma.com" target="_blank" rel="noopener noreferrer">
+            <span>Figma</span>
+            <small>UI / Prototipos</small>
+          </a>
+          <a class="link-btn" href="https://www.freepik.com" target="_blank" rel="noopener noreferrer">
+            <span>Freepik</span>
+            <small>Recursos gráficos</small>
+          </a>
+          <a class="link-btn" href="https://www.flaticon.com" target="_blank" rel="noopener noreferrer">
+            <span>Flaticon</span>
+            <small>Íconos</small>
+          </a>
+          <a class="link-btn" href="https://www.photopea.com" target="_blank" rel="noopener noreferrer">
+            <span>Photopea</span>
+            <small>Editor tipo PS</small>
+          </a>
+          <a class="link-btn" href="https://www.behance.net" target="_blank" rel="noopener noreferrer">
+            <span>Behance</span>
+            <small>Inspiración</small>
+          </a>
+        </div>
+
+        <!-- Negocios -->
+        <div class="links-grid" data-tab="negocios">
+          <a class="link-btn" href="https://www.notion.so" target="_blank" rel="noopener noreferrer">
+            <span>Notion</span>
+            <small>Organización</small>
+          </a>
+          <a class="link-btn" href="https://trello.com" target="_blank" rel="noopener noreferrer">
+            <span>Trello</span>
+            <small>Tableros</small>
+          </a>
+          <a class="link-btn" href="https://calendar.google.com" target="_blank" rel="noopener noreferrer">
+            <span>Google Calendar</span>
+            <small>Agenda</small>
+          </a>
+          <a class="link-btn" href="https://www.sat.gob.mx" target="_blank" rel="noopener noreferrer">
+            <span>SAT</span>
+            <small>Fiscal</small>
+          </a>
+          <a class="link-btn" href="https://www.gbm.com" target="_blank" rel="noopener noreferrer">
+            <span>GBM+</span>
+            <small>Inversión</small>
+          </a>
+          <a class="link-btn" href="https://www.kuspit.com" target="_blank" rel="noopener noreferrer">
+            <span>Kuspit</span>
+            <small>Inversión</small>
+          </a>
+        </div>
+
+        <!-- Creativo -->
+        <div class="links-grid" data-tab="creativo">
+          <a class="link-btn" href="https://leonardo.ai" target="_blank" rel="noopener noreferrer">
+            <span>Leonardo AI</span>
+            <small>Arte IA</small>
+          </a>
+          <a class="link-btn" href="https://docs.midjourney.com" target="_blank" rel="noopener noreferrer">
+            <span>Midjourney Docs</span>
+            <small>Imágenes</small>
+          </a>
+          <a class="link-btn" href="https://runwayml.com" target="_blank" rel="noopener noreferrer">
+            <span>Runway</span>
+            <small>Video IA</small>
+          </a>
+          <a class="link-btn" href="https://elevenlabs.io" target="_blank" rel="noopener noreferrer">
+            <span>ElevenLabs</span>
+            <small>Voz IA</small>
+          </a>
+          <a class="link-btn" href="https://www.capcut.com" target="_blank" rel="noopener noreferrer">
+            <span>CapCut Web</span>
+            <small>Edición video</small>
+          </a>
+          <a class="link-btn" href="https://www.descript.com" target="_blank" rel="noopener noreferrer">
+            <span>Descript</span>
+            <small>Podcast / Video</small>
+          </a>
+        </div>
+
+        <!-- Electrónica -->
+        <div class="links-grid" data-tab="electronica">
+          <a class="link-btn" href="https://www.kicad.org" target="_blank" rel="noopener noreferrer">
+            <span>KiCad</span>
+            <small>PCB</small>
+          </a>
+          <a class="link-btn" href="https://easyeda.com" target="_blank" rel="noopener noreferrer">
+            <span>EasyEDA</span>
+            <small>Diseño PCB</small>
+          </a>
+          <a class="link-btn" href="https://www.arduino.cc" target="_blank" rel="noopener noreferrer">
+            <span>Arduino</span>
+            <small>Plataforma</small>
+          </a>
+          <a class="link-btn" href="https://www.mouser.com" target="_blank" rel="noopener noreferrer">
+            <span>Mouser</span>
+            <small>Componentes</small>
+          </a>
+          <a class="link-btn" href="https://www.digikey.com" target="_blank" rel="noopener noreferrer">
+            <span>Digi-Key</span>
+            <small>Componentes</small>
+          </a>
+          <a class="link-btn" href="https://forum.allaboutcircuits.com" target="_blank" rel="noopener noreferrer">
+            <span>All About Circuits</span>
+            <small>Foro</small>
+          </a>
+        </div>
+
+        <!-- Cursos -->
+        <div class="links-grid" data-tab="cursos">
+          <a class="link-btn" href="https://www.udemy.com" target="_blank" rel="noopener noreferrer">
+            <span>Udemy</span>
+            <small>Cursos varios</small>
+          </a>
+          <a class="link-btn" href="https://www.coursera.org" target="_blank" rel="noopener noreferrer">
+            <span>Coursera</span>
+            <small>Universidades</small>
+          </a>
+          <a class="link-btn" href="https://platzi.com" target="_blank" rel="noopener noreferrer">
+            <span>Platzi</span>
+            <small>Tech</small>
+          </a>
+          <a class="link-btn" href="https://www.edx.org" target="_blank" rel="noopener noreferrer">
+            <span>edX</span>
+            <small>MOOCs</small>
+          </a>
+          <a class="link-btn" href="https://www.domestika.org" target="_blank" rel="noopener noreferrer">
+            <span>Domestika</span>
+            <small>Creativo</small>
+          </a>
+          <a class="link-btn" href="https://www.hotmart.com" target="_blank" rel="noopener noreferrer">
+            <span>Hotmart</span>
+            <small>Venta cursos</small>
+          </a>
+        </div>
+      </section>
+
+      <!-- Columna derecha: Apps Google/Microsoft + Notas -->
+      <section class="stack">
+        <!-- Apps de productividad -->
+        <section class="card">
+          <div class="card-header">
+            <div class="card-title">Apps de productividad</div>
+            <div class="card-tag">Google · Microsoft</div>
+          </div>
+
+          <div class="apps-columns">
+            <!-- Columna Google -->
+            <div class="apps-group">
+              <div class="apps-group-title">Google</div>
+              <div class="apps-links">
+                <a class="link-btn" href="https://mail.google.com" target="_blank" rel="noopener noreferrer">
+                  <span>Gmail</span>
+                  <small>Correo</small>
+                </a>
+                <a class="link-btn" href="https://calendar.google.com" target="_blank" rel="noopener noreferrer">
+                  <span>Calendar</span>
+                  <small>Agenda</small>
+                </a>
+                <a class="link-btn" href="https://drive.google.com" target="_blank" rel="noopener noreferrer">
+                  <span>Drive</span>
+                  <small>Archivos</small>
+                </a>
+                <a class="link-btn" href="https://docs.google.com/document" target="_blank" rel="noopener noreferrer">
+                  <span>Docs</span>
+                  <small>Documentos</small>
+                </a>
+                <a class="link-btn" href="https://docs.google.com/spreadsheets" target="_blank" rel="noopener noreferrer">
+                  <span>Sheets</span>
+                  <small>Hojas de cálculo</small>
+                </a>
+                <a class="link-btn" href="https://meet.google.com" target="_blank" rel="noopener noreferrer">
+                  <span>Meet</span>
+                  <small>Videollamadas</small>
+                </a>
+              </div>
+            </div>
+
+            <!-- Columna Microsoft -->
+            <div class="apps-group">
+              <div class="apps-group-title">Microsoft</div>
+              <div class="apps-links">
+                <a class="link-btn" href="https://outlook.live.com" target="_blank" rel="noopener noreferrer">
+                  <span>Outlook</span>
+                  <small>Correo</small>
+                </a>
+                <a class="link-btn" href="https://www.office.com/launch/word" target="_blank" rel="noopener noreferrer">
+                  <span>Word Online</span>
+                  <small>Documentos</small>
+                </a>
+                <a class="link-btn" href="https://www.office.com/launch/excel" target="_blank" rel="noopener noreferrer">
+                  <span>Excel Online</span>
+                  <small>Hojas de cálculo</small>
+                </a>
+                <a class="link-btn" href="https://www.office.com/launch/powerpoint" target="_blank" rel="noopener noreferrer">
+                  <span>PowerPoint</span>
+                  <small>Presentaciones</small>
+                </a>
+                <a class="link-btn" href="https://onedrive.live.com" target="_blank" rel="noopener noreferrer">
+                  <span>OneDrive</span>
+                  <small>Archivos</small>
+                </a>
+                <a class="link-btn" href="https://teams.microsoft.com" target="_blank" rel="noopener noreferrer">
+                  <span>Teams</span>
+                  <small>Reuniones</small>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Notas rápidas -->
+        <section class="card">
+          <div class="card-header">
+            <div class="card-title">Notas rápidas</div>
+            <div class="card-tag">Solo para hoy</div>
+          </div>
+          <textarea
+            id="quick-notes"
+            class="notes-textarea"
+            placeholder="Escribe aquí ideas, recordatorios o cosas rápidas que no quieras olvidar..."
+          ></textarea>
+          <div class="notes-actions">
+            <button class="mini-btn" id="save-notes-btn">Guardar nota</button>
+            <button class="mini-btn mini-btn-danger" id="clear-notes-btn">Eliminar</button>
+          </div>
+          <div class="hint">
+            Estas notas se guardan localmente en este navegador. No guardes aquí contraseñas ni datos muy sensibles.
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <!-- Noticias de tecnología -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title">Noticias de tecnología</div>
+        <div class="card-tag">Actualidad tech</div>
+      </div>
+
+      <div class="links-grid">
+        <a class="link-btn" href="https://www.xataka.com" target="_blank" rel="noopener noreferrer">
+          <span>Xataka</span>
+          <small>Noticias tech</small>
+        </a>
+        <a class="link-btn" href="https://www.xataka.com/categoria/ia" target="_blank" rel="noopener noreferrer">
+          <span>Xataka · IA</span>
+          <small>Inteligencia artificial</small>
+        </a>
+        <a class="link-btn" href="https://www.genbeta.com" target="_blank" rel="noopener noreferrer">
+          <span>Genbeta</span>
+          <small>Software / trucos</small>
+        </a>
+        <a class="link-btn" href="https://www.theverge.com/tech" target="_blank" rel="noopener noreferrer">
+          <span>The Verge · Tech</span>
+          <small>Gadgets / industria</small>
+        </a>
+        <a class="link-btn" href="https://www.wired.com/category/gear/" target="_blank" rel="noopener noreferrer">
+          <span>Wired · Gadgets</span>
+          <small>Reviews y análisis</small>
+        </a>
+        <a class="link-btn" href="https://arstechnica.com" target="_blank" rel="noopener noreferrer">
+          <span>Ars Technica</span>
+          <small>Profundo / análisis</small>
+        </a>
+        <a
+          class="link-btn"
+          href="https://news.google.com/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp1ZEdvU0FtVnVLQUFQAQ?hl=es-419&gl=MX&ceid=MX%3Aes-419"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>Google News Tech</span>
+          <small>Más fuentes</small>
+        </a>
+      </div>
+
+      <p class="news-hint">
+        Estos accesos te llevan a portales de noticias de tecnología. Más adelante podemos reemplazar esta sección por titulares en vivo usando una API.
+      </p>
+    </section>
+
+    <footer>
+      Ajusta los enlaces de este panel editando los archivos del proyecto en <strong>src</strong>.
+    </footer>
+  </div>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>
