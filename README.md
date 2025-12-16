@@ -6,8 +6,8 @@
 
 Página de inicio local para navegadores · HTML + CSS + JavaScript
 
-Este proyecto es un **dashboard productivo personal**, diseñado para servir como **página de inicio** en tu navegador.  
-Ofrece accesos rápidos, enlaces organizados por áreas, notas rápidas, reloj en tiempo real y una sección de noticias tecnológicas.  
+Este proyecto es un **dashboard productivo personal**, diseñado para servir como **página de inicio** en tu navegador.
+Ofrece accesos rápidos, enlaces organizados por áreas, notas rápidas, reloj en tiempo real y una sección de noticias tecnológicas.
 Toda la información permanece **local** en tu computadora, sin comunicación con servidores externos.
 
 ---
@@ -46,12 +46,23 @@ Cada pestaña administra enlaces independientes.
 
 ---
 
+### 💾 Respaldo y Migración de Datos (Nuevo)
+
+Se han añadido funcionalidades robustas para evitar la pérdida de datos si borras la caché o cambias de computadora.
+
+- **Exportar Datos (JSON):** Genera un archivo `.json` que contiene todos los enlaces personalizados y la nota rápida. Este archivo debe guardarse de forma segura.
+- **Importar Datos (JSON):** Permite restaurar todos tus enlaces y notas cargando el archivo JSON previamente exportado.
+
+Esta funcionalidad asegura la portabilidad de tu configuración.
+
+---
+
 ### Notas rápidas (Guardar / Eliminar)
 
 - Guardado automático en `localStorage`
 - Botón para **Guardar** cambios
 - Botón para **Eliminar** nota
-- Incluye advertencia importante:  
+- Incluye advertencia importante:
   **“No guardes contraseñas ni datos sensibles aquí.”**
 
 ---
@@ -67,12 +78,12 @@ Cada pestaña administra enlaces independientes.
 
 Incluye accesos directos a:
 
-- Xataka  
-- Genbeta  
-- Wired  
-- Ars Technica  
-- The Verge  
-- Google News – Tecnología  
+- Xataka
+- Genbeta
+- Wired
+- Ars Technica
+- The Verge
+- Google News – Tecnología
 
 En el futuro puede integrarse una API para obtener titulares en vivo.
 
@@ -83,7 +94,7 @@ En el futuro puede integrarse una API para obtener titulares en vivo.
 El dashboard incluye medidas de seguridad modernas:
 
 - **Content Security Policy (CSP)** para evitar ejecuciones externas
-- Enlaces externos con:  
+- Enlaces externos con:
   `rel="noopener noreferrer"`
 - Evita XSS al no usar `innerHTML` con datos del usuario
 - Validación estricta de URLs personalizadas
@@ -98,7 +109,7 @@ El dashboard está diseñado solo para uso local.
 
 No utiliza backend ni conexión a servidores externos.
 
-localStorage pertenece exclusivamente al navegador donde se usa.
+`localStorage` pertenece exclusivamente al navegador donde se usa.
 
 No almacenar información sensible como contraseñas, tokens o datos confidenciales.
 
