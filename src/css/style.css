@@ -439,6 +439,35 @@ header {
   margin-top: 6px;
 }
 
+/* --- Estilos para Respaldo (NUEVO) --- */
+
+.backup-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  /* Línea divisoria sobre los botones */
+  border-top: 1px solid rgba(71, 85, 105, 0.4); 
+  padding-top: 10px;
+}
+
+.backup-actions .mini-btn {
+  flex-grow: 1;
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  font-weight: 600;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.backup-actions .mini-btn:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--text);
+}
+
+/* Fin de estilos de Respaldo */
+
+
 .hint {
   font-size: 0.74rem;
   color: var(--text-soft);

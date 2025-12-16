@@ -40,23 +40,28 @@ document.addEventListener("DOMContentLoaded", () => {
       tabButtons.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
 
-      // Mostrar solo el grid correspondiente
+      // Mostrar solo el grid correspondiente y renderizar sus links
       tabGrids.forEach((grid) => {
-        grid.classList.toggle("active", grid.dataset.tab === target);
+        const isActive = grid.dataset.tab === target;
+        grid.classList.toggle("active", isActive);
+        if (isActive) {
+          renderLinks(target);
+        }
       });
     });
   });
-
-  // --- Enlaces personalizados por pestaña (Lógica unificada) ---
+  
+  // --- Enlaces personalizados por pestaña (Lógica unificada y Respaldo) ---
   const mainToolsCard = document.getElementById("main-tools-card");
   const addLinkBtn = document.getElementById("add-link-btn");
   const toggleDeleteModeBtn = document.getElementById(
     "toggle-delete-mode-btn"
   );
   const CUSTOM_LINKS_PREFIX = "dashboardCustomLinks_";
+  const NOTES_KEY = "dashboardQuickNotes";
   const MAX_URL_LENGTH = 1000;
 
-  // *** CONFIGURACIÓN INICIAL DE ENLACES PREDETERMINADOS ***
+  // *** CONFIGURACIÓN INICIAL DE ENLACES PREDETERMINADOS (Ahora aquí) ***
   const DEFAULT_LINKS = {
     ia: [
       { title: "ChatGPT", subtitle: "Chat general", url: "https://chat.openai.com" },
@@ -168,6 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
     a.dataset.originalUrl = url;
 
     const spanTitle = document.createElement("span");
+    // Usar textContent previene inyección XSS
     spanTitle.textContent = title || "Enlace";
 
     const small = document.createElement("small");
@@ -196,9 +202,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Cargar enlaces (predeterminados o guardados)
     let links = loadCustomLinks(tabId);
     
-    // Si es la primera carga y se cargaron los DEFAULT_LINKS, los guardamos para que sean editables.
-    // Esto asegura que el usuario pueda eliminar los enlaces predeterminados si lo desea.
+    // Si es la primera carga y se cargaron los DEFAULT_LINKS, los guardamos para que sean editables y puedan ser respaldados.
     if (localStorage.getItem(CUSTOM_LINKS_PREFIX + tabId) === null && (DEFAULT_LINKS[tabId] || []).length > 0) {
+        links = DEFAULT_LINKS[tabId];
         saveCustomLinks(tabId, links);
     }
     
@@ -217,12 +223,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   
-  // Render inicial de enlaces: para todas las pestañas
+  // Render inicial de enlaces: renderizar todas las pestañas al inicio para poblar el DOM
   tabGrids.forEach((grid) => {
     const tabId = grid.dataset.tab;
-    renderLinks(tabId);
+    // Solo renderizamos la pestaña activa al inicio para evitar redundancia de carga
+    if (grid.classList.contains("active")) {
+        renderLinks(tabId);
+    } else {
+        // Inicializar todas las demás pestañas para que el localStorage se copie por primera vez.
+        // Se llama a loadCustomLinks, si no hay nada, carga los default y los guarda.
+        loadCustomLinks(tabId); 
+    }
   });
-  
 
   // Botón: Agregar enlace a la pestaña activa
   if (addLinkBtn) {
@@ -306,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Manejar click en icono de eliminar dentro de enlaces (Ahora aplica a todos)
+  // Manejar click en icono de eliminar dentro de enlaces (Aplica a todos los custom-link)
   if (mainToolsCard) {
     mainToolsCard.addEventListener("click", (event) => {
       const deleteIcon = event.target.closest(".link-delete");
@@ -341,11 +353,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- Notas rápidas con guardado local ---
+  // --- Lógica de Notas rápidas ---
   const notesEl = document.getElementById("quick-notes");
   const saveNotesBtn = document.getElementById("save-notes-btn");
   const clearNotesBtn = document.getElementById("clear-notes-btn");
-  const NOTES_KEY = "dashboardQuickNotes";
 
   if (notesEl) {
     // Cargar notas guardadas al abrir
@@ -367,7 +378,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (saveNotesBtn && notesEl) {
     saveNotesBtn.addEventListener("click", () => {
       localStorage.setItem(NOTES_KEY, notesEl.value);
-      // Podrías mostrar un pequeño mensaje visual, pero lo dejamos simple.
+      alert("Notas guardadas.");
     });
   }
 
@@ -376,6 +387,100 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!confirm("¿Eliminar la nota rápida actual?")) return;
       notesEl.value = "";
       localStorage.removeItem(NOTES_KEY);
+      alert("Notas eliminadas.");
+    });
+  }
+
+
+  // --- Lógica de Respaldo y Migración (Exportar / Importar) ---
+  
+  const exportBtn = document.getElementById("export-btn");
+  const importBtn = document.getElementById("import-btn");
+
+  function getAllDashboardData() {
+    let backup = {};
+    for (let i = 0; i < localStorage.length; i++){
+        const key = localStorage.key(i);
+        // Incluye las claves de enlaces personalizados y notas rápidas
+        if (key.startsWith(CUSTOM_LINKS_PREFIX) || key === NOTES_KEY){
+            backup[key] = localStorage.getItem(key);
+        }
+    }
+    return JSON.stringify(backup, null, 2);
+  }
+
+  function downloadJson(filename, text) {
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+  }
+
+
+  if (exportBtn) {
+    exportBtn.addEventListener("click", () => {
+      const data = getAllDashboardData();
+      if (data === "{}") {
+        alert("No hay datos personalizados guardados (enlaces o notas) para exportar.");
+        return;
+      }
+      const date = new Date().toISOString().slice(0, 10);
+      downloadJson(`dashboard_backup_${date}.json`, data);
+      alert("Archivo JSON de respaldo creado. ¡Guárdalo en un lugar seguro (nube)! ");
+    });
+  }
+
+  if (importBtn) {
+    importBtn.addEventListener("click", () => {
+      if (!confirm("ADVERTENCIA: ¿Estás seguro de que quieres importar datos? Esto SOBRESCRIBIRÁ todos tus enlaces y notas actuales.")) return;
+
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'application/json';
+
+      input.onchange = e => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const content = e.target.result;
+          try {
+            const data = JSON.parse(content);
+            let restoredCount = 0;
+            
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    // Solo acepta claves conocidas (seguridad básica)
+                    if (key.startsWith(CUSTOM_LINKS_PREFIX) || key === NOTES_KEY) {
+                        localStorage.setItem(key, data[key]);
+                        restoredCount++;
+                    }
+                }
+            }
+            if (restoredCount > 0) {
+                alert(`✅ Restauración completada. Se importaron ${restoredCount} elementos. Recargando...`);
+                // Forzar la recarga para que el JS renderice los nuevos datos desde localStorage
+                window.location.reload(); 
+            } else {
+                alert("❌ El archivo JSON es válido, pero no contiene datos del dashboard para importar.");
+            }
+
+          } catch (error) {
+            alert("❌ Error al leer el archivo. Asegúrate de que sea un archivo JSON válido.");
+            console.error("Error de importación:", error);
+          }
+        };
+        reader.readAsText(file);
+      };
+
+      input.click(); // Abre el diálogo de selección de archivo
     });
   }
 });
