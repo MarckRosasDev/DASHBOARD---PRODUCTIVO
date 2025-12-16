@@ -1,6 +1,6 @@
 # 🚀 Dashboard Productivo Personal
 
-![Vista previa del dashboard](src/img/readme/Panel_Inicio.png)
+![Vista previa del dashboard](img/Panel_Inicio.png)
 
 ![Licencia](https://img.shields.io/badge/Licencia-CC%20BY--NC%204.0-blue)
 
@@ -91,19 +91,6 @@ El dashboard incluye medidas de seguridad modernas:
 - Todo el almacenamiento es exclusivamente local
 
 ---
-
-## Estructura del proyecto
-
-/
-├── index.html
-├── LICENSE
-├── README.md
-└── src/
-├── css/
-│ └── style.css
-├── js/
-│ └── main.js
-├── img/
 
 ## Notas importantes
 
